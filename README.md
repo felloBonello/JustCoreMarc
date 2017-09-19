@@ -2,8 +2,9 @@
 Project to facilitate the bidding of bus runs
 
 ## How to run
-1. npm install
-2. npm run start
+1. Setup .env file
+2. npm install
+3. npm run start
 
 ## Services:
 

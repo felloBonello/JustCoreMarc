@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const app = express();
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Populates req.session
 app.use(bodyParser.json());
@@ -31,5 +32,5 @@ app.get('/', function(req, res) {
 /* istanbul ignore next */
 if (!module.parent) {
   app.listen(port);
-  console.log(`Express started on port 3000 ${port}`);
+  console.log(`Express started on port ${port}`);
 }
