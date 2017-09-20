@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "dev": "nodemon server.js",
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,6 +17,7 @@
     "express-session": "^1.15.3",
     "morgan": "^1.8.2",
     "mysql": "^2.14.1",
+    "nodemon": "^1.12.1",
     "pbkdf2-password": "^1.2.1"
   }
 }
