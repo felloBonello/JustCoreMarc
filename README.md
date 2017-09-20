@@ -10,15 +10,15 @@ Project to facilitate the bidding of bus runs
 
 ### /
 
-GET / HTTP/1.1
-Host: localhost:3000
-
+GET / HTTP/1.1  
+Host: localhost:3000  
+  
 ### /v1/createuser
 
-POST /v1/createuser HTTP/1.1
-Host: localhost:3000
-Content-Type: application/json
-
+POST /v1/createuser HTTP/1.1  
+Host: localhost:3000  
+Content-Type: application/json  
+  
 payload structure:
 ```javascript
 {
@@ -34,10 +34,10 @@ payload structure:
 
 ### /v1/login
 
-POST /v1/login HTTP/1.1
-Host: localhost:3000
-Content-Type: application/json
-
+POST /v1/login HTTP/1.1  
+Host: localhost:3000  
+Content-Type: application/json  
+  
 payload structure: 
 ```javascript
 {
@@ -48,5 +48,5 @@ payload structure:
 
 ### /v1/logout
 
-GET /v1/logout HTTP/1.1
-Host: localhost:3000
+GET /v1/logout HTTP/1.1  
+Host: localhost:3000  
