@@ -1,35 +1,20 @@
 require('dotenv').config();
 const express = require('express');
-const session = require('express-session');
 const bodyParser = require('body-parser');
 const app = express();
 
 const port = process.env.PORT || 3000;
-
-// Populates req.session
-app.use(bodyParser.json());
-app.use(session({
-  resave: false, // don't save session if unmodified
-  saveUninitialized: false, // don't create session until something stored
-  secret: 'keyboard cat'
-}));
-
-//user routes
 const userroutes = require('./routes/userroutes');
+
+//Configure middleware
+app.use(bodyParser.json());
+//-userroutes
 app.post('/v1/createuser', userroutes.creatuser);
 app.post('/v1/login', userroutes.login);
-app.get('/v1/logout', userroutes.logout);
+app.get('/v1/userinfo', userroutes.userinfo);
 
-//Welcome route
-app.get('/', function(req, res) {
-  if (req.session.username) {
-    res.send({message: `Hello ${req.session.username}`});
-  } else {
-    res.send({message: 'Hello guest'});
-  }
-});
 
-/* istanbul ignore next */
+//make sure parent module starts to listen
 if (!module.parent) {
   app.listen(port);
   console.log(`Express started on port ${port}`);
