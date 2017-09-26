@@ -1,0 +1,36 @@
+<md-card align="center">
+  <md-card-header class="bgc-grey-00" layout="row">
+    <md-card-title>
+      <span class="md-headline">{{ msg }}</span>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <form [formGroup]="loginForm">
+      <div layout="row">
+        <md-input-container flex>
+          <input mdInput placeholder="User Name" type="text"
+                 [(ngModel)]="loginCredentials.username" formControlName="frmusername">
+          <md-hint *ngIf="frmusername.errors && (frmusername.dirty || frmusername.touched)" align="end"
+                   [ngStyle]="{'color': 'red'}"> User name is required </md-hint>
+        </md-input-container>
+      </div>
+      <div layout="row">
+        <md-input-container flex>
+          <input mdInput placeholder="Password" type="password"
+                 [(ngModel)]="loginCredentials.password" required formControlName="frmpassword">
+          <md-hint *ngIf="frmpassword.errors && (frmpassword.dirty || frmpassword.touched)" align="end"
+                   [ngStyle]="{'color': 'red'}"> Password is required </md-hint>
+        </md-input-container>
+      </div>
+      <div class="md-pad-sm">
+        <span>
+          <button md-raised-button [disabled]="!loginForm.valid" type="submit"
+                  (click)="login(loginCredentials)">Login</button>
+        </span>
+      </div>
+    </form>
+  </md-card-content>
+  <md-card-footer align="end" class="text-sm">
+    <span class="pad-right-md">&copy;JCM Soultions - 2017</span>
+  </md-card-footer>
+</md-card>
