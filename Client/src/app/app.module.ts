@@ -6,10 +6,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MdButtonModule, MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+
+import { routing } from './app.routing';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent, HomeComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -20,7 +23,8 @@ import { AppComponent } from './app.component';
     MdMenuModule,
     MdCardModule,
     MdToolbarModule,
-    MdIconModule
+    MdIconModule,
+    routing
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber';
+@import '~@angular/material/_theming';
+// Include non-theme styles for core.
+@include mat-core();
+
+
+//Custom theme
+$primary: mat-palette($mat-blue-grey, 900); // custom main colour
+$accent: mat-palette($mat-blue-grey, 100); // custom secondary colour
+$warn: mat-palette($mat-red, 600); // custom error colour
+$my-theme: mat-light-theme($primary, $accent, $warn); // add our colours as custom theme
+@include angular-material-theme($my-theme); // let angular know about our
+
+md-toolbar-row {
+  justify-content: space-between;
+}
+
