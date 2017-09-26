@@ -1,52 +1,68 @@
 # JustCoreMarc
-Project to facilitate the bidding of bus runs
+Project to facilitate the bidding of bus runs  
 
 ## Run for development
-1. Setup .env file
-2. npm install
-3. npm run dev
+1. Setup .env file  
+2. npm install  
+3. npm run dev  
 
 ## Services:
-
-### /
-
-GET / HTTP/1.1  
-Host: localhost:3000  
   
-### /v1/createuser
-
-POST /v1/createuser HTTP/1.1  
-Host: localhost:3000  
+### POST /v1/createuser
+#### Headers
 Content-Type: application/json  
-  
-payload structure:
+##### Request
 ```javascript
 {
-	"firstName" : "Corey",
-	"lastName" : "Martin",
-	"email" : "Corey@god.com",
-	"dateOfBirth" : "1990/01/01",
-	"employeeNumber" : 2,
-	"username" : "Corey2",
-	"password" : "password"
+  "firstName" : "Corey",
+  "lastName" : "Martin",
+  "email" : "Corey@god.com",
+  "dateOfBirth" : "1990/01/01",
+  "employeeNumber" : 2,
+  "username" : "Corey2",
+  "password" : "password"
+}
+```
+##### Response
+```javascript
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoxLCJmaXJzdE5hbWUiOiJDb3JleSIsImxhc3ROYW1lIjoiTWFydGluIiwiZW1haWwiOiJDb3JleUBnb2QU9mQmlydGgiOiIxOTkwLTAxLTAxVDA1OjAwOjAwLjAwMFoiLCJlbXBsb3llZU51bWJlciI6MSwic2VuaW9yaXR5IjpudWxsLCJ1c2VybmFtZSI6IkNvcmV5IiwiaWF0IjoxNTA2NDQ0ODk0fQ.lvW_3YzM3XHDbdY6ql8-o3-K0WJ7OGnE3CSRs0sB2-E"
 }
 ```
 
-### /v1/login
-
-POST /v1/login HTTP/1.1  
-Host: localhost:3000  
+### POST /v1/login
+##### Headers
 Content-Type: application/json  
-  
-payload structure: 
+##### Request 
 ```javascript
 {
-	"username" : "Corey2",
-	"password" : "martinmartin"
+  "username" : "Corey2",
+  "password" : "foo"
+}
+```
+#### Response
+```javascript
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZUlkIjoxLCJmaXJzdE5hbWUiOiJDb3JleSIsImxhc3ROYW1lIjoiTWFydGluIiwiZW1haWwiOiJDb3JleUBnb2QU9mQmlydGgiOiIxOTkwLTAxLTAxVDA1OjAwOjAwLjAwMFoiLCJlbXBsb3llZU51bWJlciI6MSwic2VuaW9yaXR5IjpudWxsLCJ1c2VybmFtZSI6IkNvcmV5IiwiaWF0IjoxNTA2NDQ0ODk0fQ.lvW_3YzM3XHDbdY6ql8-o3-K0WJ7OGnE3CSRs0sB2-E"
 }
 ```
 
-### /v1/logout
-
-GET /v1/logout HTTP/1.1  
-Host: localhost:3000  
+### GET /v1/userinfo
+##### Headers
+Authoirzation: _token here_  
+#### Response
+```javascript
+{
+  "decoded": {
+    "employeeId": 1,
+    "firstName": "Foo",
+    "lastName": "Bar",
+    "email": "Foo@bar.com",
+    "dateOfBirth": "1990-01-01T05:00:00.000Z",
+    "employeeNumber": 1,
+    "seniority": 353,
+    "username": "Foo",
+    "iat": 1506444894
+  }
+}
+```
