@@ -49,7 +49,7 @@ Content-Type: application/json
 
 ### GET /v1/runs
 ##### Headers
-Authoirzation: _token here_  
+Authorization: _token here_  
 ##### Response
 ```javascript
 {
@@ -71,7 +71,7 @@ Authoirzation: _token here_
 
 ### GET /v1/userinfo
 ##### Headers
-Authoirzation: _token here_  
+Authorization: _token here_  
 #### Response
 ```javascript
 {
