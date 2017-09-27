@@ -47,6 +47,28 @@ Content-Type: application/json
 }
 ```
 
+### GET /v1/runs
+##### Headers
+Authoirzation: _token here_  
+##### Response
+```javascript
+{
+  "runs": [
+    {
+      "id": 1,
+      "busRoute": 1,
+      "startTime": null,
+      "endTime": null,
+      "startLocation": null,
+      "endLocation": null,
+      "daysOff": null
+    },
+    ...
+    ...
+  ]
+}
+```
+
 ### GET /v1/userinfo
 ##### Headers
 Authoirzation: _token here_  
