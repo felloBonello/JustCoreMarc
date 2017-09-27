@@ -5,7 +5,7 @@ const oauth = require('../lib/oauth');
  */
 exports.login = (req, res) => {
 
-  //check if an authorization header alreay exists
+  //check if an authorization header already exists
   if (req.headers.authorization) {
     res.status(400);
     return res.send({error: `You are required to logout before you login`});
