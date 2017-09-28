@@ -6,6 +6,7 @@ import {FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Credentials} from './credentials';
 import { RestfulService } from '../restful.service';
 import { BASEURL } from '../constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-exercises',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
   loginCredentials: Credentials;
   msg: string;
 
-  constructor(private builder: FormBuilder, private restService: RestfulService) {
+  constructor(private builder: FormBuilder, private restService: RestfulService, private router: Router) {
     this.frmusername = new FormControl('', Validators.compose([Validators.required]));
     this.frmpassword = new FormControl('', Validators.compose([Validators.required]));
     this.loginCredentials = {username: '', password: ''};
@@ -39,10 +40,11 @@ export class LoginComponent implements OnInit {
    */
   login(credentials: Credentials) {
     this.restService.login(BASEURL, credentials).subscribe(payload => {
-        this.msg = payload['message'];
+        this.router.navigate(['home']);
+        
       },
       err => {
-        this.msg = 'Error - ' + err.status + ' - ' + err.statusText;
+        this.msg = 'Invalid user name or password';
       });
   } // login
 
