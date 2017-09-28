@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
   login(credentials: Credentials) {
     this.restService.login(BASEURL, credentials).subscribe(payload => {
         this.router.navigate(['home']);
-        
+        localStorage.setItem('token', payload.token);
       },
       err => {
         this.msg = 'Invalid user name or password';
