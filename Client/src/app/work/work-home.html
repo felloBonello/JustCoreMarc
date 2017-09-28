@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<md-toolbar color="primary">
+  <span>Work</span>
+</md-toolbar>
+<md-card *ngIf="hideEditForm">
+  <md-card-header class="bgc-grey-00" layout="row" style="margin-bottom: 50px">
+    <md-card-title>
+      <span class="md-title bgc-yellow-A200">{{ msg }}</span>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <md-list flex>
+      <app-work-table [works]="works"
+                      (selected)="select($event)">
+      </app-work-table>
+    </md-list>
+  </md-card-content>
+</md-card>

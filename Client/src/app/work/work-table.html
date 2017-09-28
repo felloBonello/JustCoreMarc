@@ -1,10 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<table td-data-table style="top:-75px;position:relative;">
+  <tr td-data-table-row>
+    <th td-data-table-cell (click)="sortWorks('id')">
+      <span class="pad-left-sm">ID</span>
+      <md-icon *ngIf="!sortOrder && sortedColumn === 'id';">arrow_drop_down</md-icon>
+      <md-icon *ngIf="sortOrder && sortedColumn === 'id';">arrow_drop_up</md-icon>
+      <md-icon *ngIf="sortedColumn !== 'id';"></md-icon>
+    </th>
+    <th td-data-table-cell (click)="sortWorks('hasdetails')">
+      Details
+      <md-icon *ngIf="!sortOrder && sortedColumn === 'hasdetails';">arrow_drop_down</md-icon>
+      <md-icon *ngIf="sortOrder && sortedColumn === 'hasdetails';">arrow_drop_up</md-icon>
+      <md-icon *ngIf="sortedColumn !== 'hasdetails';"></md-icon>
+    </th>
+    <th td-data-table-cell (click)="sortWorks('dayoffone')">
+      Days Off 1
+      <md-icon *ngIf="!sortOrder && sortedColumn === 'dayoffone';">arrow_drop_down</md-icon>
+      <md-icon *ngIf="sortOrder && sortedColumn === 'dayoffone';">arrow_drop_up</md-icon>
+      <md-icon *ngIf="sortedColumn !== 'dayoffone';"></md-icon>
+    </th>
+    <th td-data-table-cell (click)="sortWorks('dayofftwo')">
+      Days Off 2
+      <md-icon *ngIf="!sortOrder && sortedColumn === 'dayofftwo';">arrow_drop_down</md-icon>
+      <md-icon *ngIf="sortOrder && sortedColumn === 'dayofftwo';">arrow_drop_up</md-icon>
+      <md-icon *ngIf="sortedColumn !== 'dayofftwo';"></md-icon>
+    </th>
+  </tr>
+  <tr td-data-table-row *ngFor="let work of works" (click)="selected.emit(work)">
+    <td td-data-table-cell>
+      {{work.id}}
+    </td>
+    <td td-data-table-cell style="left:10px;position:relative;">
+      {{work.hasdetails}}
+    </td>
+    <td td-data-table-cell style="left:10px;position:relative;">
+      {{work.dayoffone}}
+    </td>
+    <td td-data-table-cell style="left:10px;position:relative;">
+      {{work.dayofftwo}}
+    </td>
+  </tr>
+</table>
