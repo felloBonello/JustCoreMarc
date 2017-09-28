@@ -57,11 +57,11 @@ Authorization: _token here_
     {
       "id": 1,
       "busRoute": 1,
-      "startTime": null,
-      "endTime": null,
-      "startLocation": null,
-      "endLocation": null,
-      "daysOff": null
+      "startTime": "06:22:00",
+      "endTime": "02:48:00",
+      "startLocation": "G-H",
+      "endLocation": "DWS",
+      "daysOff": "Q"
     },
     ...
     ...
