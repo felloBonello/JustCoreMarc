@@ -14,6 +14,7 @@ import { LoginModule } from './login/login.module';
 
 import { routing } from './app.routing';
 import { RestfulService } from './restful.service';
+import { AuthGuard } from './Auth-Guard'
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { RestfulService } from './restful.service';
     LoginModule,
     routing
   ],
-  providers: [RestfulService],
+  providers: [RestfulService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
