@@ -69,7 +69,7 @@ exports.authenticateUser = (username, password, cb) => {
         employeeViewModel.username = user.User_Name;
 
         const token = jwt.sign(employeeViewModel, process.env.SECRET, function(err, token) {
-          cb(null, token);
+          cb(null, {token: token, name: employeeViewModel.firstName});
           return;
         });
 
@@ -151,7 +151,7 @@ exports.registerUser = (user, cb) => {
             return;
           }
 
-          cb(null, token);
+          cb(null, {token: token, name: employeeViewModel.firstName});
           return;
         });
       });
