@@ -14,7 +14,7 @@ import { LoginModule } from './login/login.module';
 
 import { routing } from './app.routing';
 import { RestfulService } from './restful.service';
-import { AuthGuard } from './Auth-Guard'
+import { AuthGuard } from './auth-guard'
 
 @NgModule({
   declarations: [
