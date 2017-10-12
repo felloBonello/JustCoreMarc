@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
+const schedule = require('./schedule/create_schedule');
 
 app.use(cors());
 
@@ -25,3 +26,5 @@ if (!module.parent) {
   app.listen(port);
   console.log(`Express started on port ${port}`);
 }
+
+schedule.CreateSchedule();

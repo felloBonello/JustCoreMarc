@@ -17,7 +17,7 @@
       <div layout="row">
         <md-input-container flex>
           <input mdInput placeholder="Password" type="password"
-                 [(ngModel)]="loginCredentials.password" required formControlName="frmpassword">
+                 [(ngModel)]="loginCredentials.password" formControlName="frmpassword">
           <md-hint *ngIf="frmpassword.errors && (frmpassword.dirty || frmpassword.touched)" align="end"
                    [ngStyle]="{'color': 'red'}"> Password is required </md-hint>
         </md-input-container>

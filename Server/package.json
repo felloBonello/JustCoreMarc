@@ -17,9 +17,10 @@
     "express": "^4.15.5",
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.0.1",
-    "moment": "^2.18.1",
+    "moment": "^2.19.1",
     "morgan": "^1.8.2",
     "mysql": "^2.14.1",
+    "node-schedule": "^1.2.5",
     "nodemon": "^1.12.1",
     "pbkdf2-password": "^1.2.1"
   }
