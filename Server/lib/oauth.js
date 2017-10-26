@@ -36,10 +36,10 @@ exports.readJWT = (token, cb) => {
  * @param {String} password - the password to use to sign in
  * @param {Function} cb - The callback to invoke when the function has completed
  */
-exports.authenticateUser = (username, password, cb) => {
+exports.authenticateUser = (userName, password, cb) => {
 
   //using prepared statements to prevent sql injection
-  const sql = mysql.format('SELECT * FROM ?? WHERE User_Name = ?', [constants.EMPLOYEE_TABLE, username]);
+  const sql = mysql.format('SELECT * FROM ?? WHERE User_Name = ?', [constants.EMPLOYEE_TABLE, userName]);
   con.query(sql, function (err, result, fields) {
 
     if (err) {
@@ -49,7 +49,7 @@ exports.authenticateUser = (username, password, cb) => {
     }
     
     if (result.length === 0) {
-      cb(utils.createError(400, `No employee exists with the username ${username}`), null);
+      cb(utils.createError(400, `No employee exists with the user name ${userName}`), null);
       return;
     }
 
@@ -58,18 +58,18 @@ exports.authenticateUser = (username, password, cb) => {
       //check if hash matches
       if (hash == user.Password) {
 
-        let employeeViewModel = {};
-        employeeViewModel.employeeId = user.Employees_Id;
-        employeeViewModel.firstName = user.First_Name;
-        employeeViewModel.lastName = user.Last_Name;
-        employeeViewModel.email = user.Email;
-        employeeViewModel.dateOfBirth = user.Date_Of_Birth;
-        employeeViewModel.employeeNumber = user.Employee_Number;
-        employeeViewModel.seniority = user.Seniority;
-        employeeViewModel.username = user.User_Name;
+        let employee = {};
+        employee.employeeId = user.Employees_Id;
+        employee.firstName = user.First_Name;
+        employee.lastName = user.Last_Name;
+        employee.email = user.Email;
+        employee.dob = user.Date_Of_Birth;
+        employee.userName = user.User_Name;
+        employee.isAllowed = user.Is_Allowed;
+        employee.bidTime = user.Bid_Time;
 
-        const token = jwt.sign(employeeViewModel, process.env.SECRET, function(err, token) {
-          cb(null, {token: token, name: employeeViewModel.firstName});
+        const token = jwt.sign(employee, process.env.SECRET, function(err, token) {
+          cb(null, {token: token, employee: employee});
           return;
         });
 
@@ -93,7 +93,7 @@ exports.authenticateUser = (username, password, cb) => {
 exports.registerUser = (user, cb) => {
 
   //using prepared statements to prevent sql injection
-  const params = [constants.EMPLOYEE_TABLE, user.username];
+  const params = [constants.EMPLOYEE_TABLE, user.userName];
   const findUserSQL = mysql.format('SELECT User_Name FROM ?? WHERE User_Name = ?', params);
 
   //check if username is already taken
@@ -106,7 +106,7 @@ exports.registerUser = (user, cb) => {
     }
 
     if (result.length > 0) {
-      cb(utils.createError(400, `Username ${user.username} is already taken`), null);
+      cb(utils.createError(400, `Username ${user.userName} is already taken`), null);
       return;
     }
 
@@ -119,11 +119,11 @@ exports.registerUser = (user, cb) => {
       }
 
       //using prepared statements to prevent sql injection
-      const params = [constants.EMPLOYEE_TABLE, user.firstName, user.lastName, user.email, user.dateOfBirth, 
-                      user.employeeNumber, user.username, hash, salt];
+      const params = [constants.EMPLOYEE_TABLE, user.employeeNumber, user.firstName, user.lastName, user.email, user.dob,
+                      user.userName, false, hash, salt];
       const insertUserSQL = mysql.format('INSERT INTO ?? ' +
-      '(First_Name, Last_Name, Email, Date_Of_Birth, Employee_Number, User_Name, Password, Salt)' + 
-      'VALUES (?, ?, ?, ?, ?, ?, ?, ?)', params);
+      '(Employee_Id, First_Name, Last_Name, Email, Date_Of_Birth, User_Name, Is_Allowed, Password, Salt)' +
+      'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', params);
 
       con.query(insertUserSQL, function (err, result) {
         if (err) {
@@ -133,17 +133,16 @@ exports.registerUser = (user, cb) => {
         }
 
         //translate from database model to display model
-        let employeeViewModel = {};
-        employeeViewModel.employeeId = result.insertId;
-        employeeViewModel.firstName = user.firstName;
-        employeeViewModel.lastName = user.lastName;
-        employeeViewModel.email = user.email;
-        employeeViewModel.dateOfBirth = user.dateOfBirth;
-        employeeViewModel.employeeNumber = user.employeeNumber;
-        employeeViewModel.seniority = null; //TODO: figure out how to set seniority
-        employeeViewModel.username = user.username;
+        let employee = {};
+        employee.employeeId = user.employeeNumber;
+        employee.firstName = user.firstName;
+        employee.lastName = user.lastName;
+        employee.email = user.email;
+        employee.dob = user.dateOfBirth;
+        employee.userName = user.userName;
+        employee.isAllowed = false;
 
-        jwt.sign(employeeViewModel, process.env.SECRET, function(err, token) {
+        jwt.sign(employee, process.env.SECRET, function(err, token) {
           //I honestly don't know what could cause this error, best to check tho.
           if (err) {
             console.log(err); //TODO: log this with npm package morgan.
@@ -151,7 +150,7 @@ exports.registerUser = (user, cb) => {
             return;
           }
 
-          cb(null, {token: token, name: employeeViewModel.firstName});
+          cb(null, {token: token, employee: employee} );
           return;
         });
       });

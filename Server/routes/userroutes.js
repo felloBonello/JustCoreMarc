@@ -1,4 +1,5 @@
 const oauth = require('../lib/oauth');
+var userList = require('../modules/userlist');
 
 /**
  * Login
@@ -12,7 +13,7 @@ exports.login = (req, res) => {
   }
 
   //check if username and password were supplied
-  if (!req.body.username) {
+  if (!req.body.userName) {
     res.status(400);
     return res.send({error: "username is required"});
   } else if (!req.body.password) {
@@ -20,13 +21,15 @@ exports.login = (req, res) => {
     return res.send({error: "password is required"});
   }
 
-  oauth.authenticateUser(req.body.username, req.body.password, function(err, token) {
+  oauth.authenticateUser(req.body.userName, req.body.password, function(err, data) {
     if (err) {
       res.status(err.status);
       return res.send({error: err.error});
     }
-
-    return res.send({token});
+    else{
+        userList.join(data.employee);
+        return res.send({token: data.token});
+    }
   });
 }
 
@@ -53,7 +56,7 @@ exports.creatuser = (req, res) => {
   if (!user.email) {
     errors.push({error: 'email is required'});
   }
-  if (!user.dateOfBirth) {
+  if (!user.dob) {
     errors.push({error: 'dateOfBirth is required'});
   }
   if (!user.employeeNumber) {
@@ -62,7 +65,7 @@ exports.creatuser = (req, res) => {
   /*if (!user.seniority) {
     errors.push({error: 'seniority is required'});
   } */
-  if (!user.username) {
+  if (!user.userName) {
     errors.push({error: 'username is required'});
   }
   if (!user.password) {
@@ -75,13 +78,15 @@ exports.creatuser = (req, res) => {
     return res.send(errors);
   }
 
-  oauth.registerUser(user, function(err, token) {
+  oauth.registerUser(user, function(err, data) {
     if (err) {
       res.status(err.status);
       return res.send({error: err.error});
     }
-
-    return res.send({token});
+    else{
+        userList.join(data.employee);
+        return res.send({token: data.token});
+    }
   });
 }
 
