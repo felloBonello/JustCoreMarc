@@ -1,12 +1,12 @@
-<md-toolbar color="primary">
+<mat-toolbar color="primary">
   <span>Just Core Marc</span>
-  <button md-button [mdMenuTriggerFor]="appMenu">
-    <md-icon>menu</md-icon>
+  <button mat-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>menu</mat-icon>
   </button>
-</md-toolbar>
-<md-menu #appMenu="mdMenu">
-  <a md-menu-item [routerLink]="['login']">Login</a>
-  <a md-menu-item [routerLink]="['home']">Home</a>
-  <a md-menu-item [routerLink]="['work']">Work Items</a>
-</md-menu>
+</mat-toolbar>
+<mat-menu #appMenu="matMenu">
+  <a mat-menu-item [routerLink]="['login']">Login</a>
+  <a mat-menu-item [routerLink]="['home']">Home</a>
+  <a mat-menu-item [routerLink]="['work']">Work Items</a>
+</mat-menu>
 <router-outlet></router-outlet>

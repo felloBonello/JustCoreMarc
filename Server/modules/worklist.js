@@ -40,50 +40,64 @@ const RUNS_BY_WORK_ID =
 
 module.exports = {
 
-    workItems: new Array(),
+    workItems: [],
 
     fill: function () {
-        let buildList = [];
+        let workItems = this.workItems;
 
-        con.query(ALL_WORK_ITEMS, function(werr, wresults) {
-            if (werr) {
+        con.query(ALL_WORK_ITEMS, function(err, results) {
+            if (err) {
                 console.log(werr);
             }
 
-            for (let i = 0; i < wresults.length; ++i) {
+            for (let i = 0; i < results.length; ++i) {
                 let item = {};
 
-                item.workId = wresults[i].workId;
-                item.hasDetails = wresults[i].hasDetails;
+                item.workId = results[i].workId;
+                item.hasDetails = results[i].hasDetails;
                 item.daysOff = [];
                 item.runs = [];
 
-                //fill days off array for work item
-                con.query(mysql.format(DAYS_OFF_BY_WORK_ID, item.workId), function(derr, dresults) {
-                    if (derr) {
-                        console.log(derr);
+                getDaysOff(item.workId, function(result, err) {
+                    if (err) {
+                        console.log(err);
                     }
 
-                    for (let i = 0; i < dresults.length; ++i) {
-                        item.daysOff.push(dresults[i]);
-                    }
+                    item.daysOff = result;
                 });
 
-                //fill run array for work item
-                con.query(mysql.format(RUNS_BY_WORK_ID, item.workId), function(rerr, rresults) {
-                    if (rerr) {
-                        console.log(rerr);
+                getRuns(item.workId, function(result, err) {
+                    if (err) {
+                        console.log(err);
                     }
 
-                    for (let i = 0; i < rresults.length; ++i) {
-                        item.runs.push(rresults[i]);
-                    }
+                    item.runs = result;
+                    workItems.push(item);
                 });
-
-                buildList.push(item);
             }
         });
-
-        this.workItems = buildList;
     }
 };
+
+//fill days off array for work item
+function getDaysOff(workId, callback) {
+    con.query(mysql.format(DAYS_OFF_BY_WORK_ID, workId), function(err, results) {
+        callback(results, err);
+    });
+}
+
+//fill run array for work item
+function getRuns(workId, callback) {
+    con.query(mysql.format(RUNS_BY_WORK_ID, workId), function(err, results) {
+
+        let runs = []
+
+        for (let i = 0; i < results.length; ++i) {
+            results[i].timeOn = results[i].timeOn.slice(0, -3);
+            results[i].timeOff = results[i].timeOff.slice(0, -3);
+            runs.push(results[i]);
+        }
+
+        callback(runs, err);
+    });
+}

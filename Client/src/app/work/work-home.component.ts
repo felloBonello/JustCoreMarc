@@ -1,29 +1,50 @@
 import { Component, OnInit } from '@angular/core';
-import { Work } from './work';
+
+import { WorkItem } from './work-item';
 import { RestfulService } from '../restful.service';
 import { BASEURL } from '../constants';
+
 @Component({
   selector: 'app-work',
-  templateUrl: 'work-home.html',
+  templateUrl: 'work-home.html'
 })
-export class WorkHomeComponent implements OnInit {
-  works: Array<Work>;
+export class WorkHomeComponent implements  OnInit {
+  workItems: Array<WorkItem>;
+  selectedWorkItem: WorkItem;
   hideEditForm: boolean;
   msg: string;
+  todo: string;
   url: string;
   constructor(private restService: RestfulService) {
     this.hideEditForm = true;
-    this.url = BASEURL + '/runs';
-  }
+  } // constructor
+
   ngOnInit() {
-    this.msg = 'Loading the list of work items from the server, Please wait.';
-    this.restService.load(this.url).subscribe(payload => {
-        this.works = payload;
-        this.msg = ' Work Items Loaded';
+    this.msg = '';
+    this.restService.load(BASEURL + '/workItems').subscribe(payload => {
+        this.workItems = payload;
+        this.msg += ' work items loaded';
       },
-      err => {
-        this.works = [];
-        this.msg = 'Error - Work Items Not Loaded - ' + err.status + ' - ' + err.statusText;
+      err => {this.msg += 'Error occurred - work items not loaded - ' + err.status + ' - ' +
+        err.statusText;
       });
   }
-}
+
+  select(workItem: WorkItem) {
+    this.todo = 'update';
+    this.selectedWorkItem = workItem;
+    this.msg = 'Work item ' + workItem.workId + ' selected';
+    this.hideEditForm = !this.hideEditForm;
+  } // select
+
+  /**
+   * cancelled - event handler for cancel button
+   */
+  cancel(msg?: string) {
+    if (msg) {
+      this.msg = 'Operation cancelled';
+    }
+    this.hideEditForm = !this.hideEditForm;
+  } // cancel
+
+} // WorkHomeComponent class

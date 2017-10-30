@@ -2,6 +2,6 @@
  * Credentials - interface for an login credentials.
  */
 export interface Credentials {
-  username: string;
+  userName: string;
   password: string;
 }

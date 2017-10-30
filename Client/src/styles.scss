@@ -12,7 +12,7 @@ $warn: mat-palette($mat-red, 600); // custom error colour
 $my-theme: mat-light-theme($primary, $accent, $warn); // add our colours as custom theme
 @include angular-material-theme($my-theme); // let angular know about our
 
-md-toolbar-row {
+mat-toolbar-row {
   justify-content: space-between;
 }
 

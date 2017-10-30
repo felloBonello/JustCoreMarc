@@ -4,6 +4,7 @@ import { Headers } from '@angular/http';
 
 @Injectable()
 export class RestfulService {
+
   constructor(public http: HttpClient) {
   } // constructor
 
@@ -11,7 +12,8 @@ export class RestfulService {
    * Retrieves the json, pass back to a subscriber
    */
   load(url) {
-    return this.http.get<any>(url);
+    const headers = new HttpHeaders().set('Authorization', localStorage.getItem('token'));
+    return this.http.get<any>(url, {headers: headers});
   } // load
 
   /**

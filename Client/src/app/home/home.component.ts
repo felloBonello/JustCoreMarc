@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   templateUrl: './home.component.html'
 })
-export class HomeComponent { 
+export class HomeComponent {
   name: string;
   constructor() {
     this.name = localStorage.name;

@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   constructor(private builder: FormBuilder, private restService: RestfulService, private router: Router) {
     this.frmusername = new FormControl('', Validators.compose([Validators.required]));
     this.frmpassword = new FormControl('', Validators.compose([Validators.required]));
-    this.loginCredentials = {username: '', password: ''};
+    this.loginCredentials = {userName: '', password: ''};
     this.msg = '';
   } // constructor
 
@@ -41,8 +41,8 @@ export class LoginComponent implements OnInit {
   login(credentials: Credentials) {
     this.restService.login(BASEURL, credentials).subscribe(payload => {
       console.log(payload);
-      localStorage.setItem('token', payload.token.token);
-      localStorage.setItem('name', payload.token.name);
+      localStorage.setItem('token', payload.token);
+      localStorage.setItem('name', credentials.userName);
       this.router.navigate(['home']);
       },
       err => {

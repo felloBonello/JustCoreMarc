@@ -1,17 +1,14 @@
-<md-toolbar color="primary">
-  <span>Work</span>
-</md-toolbar>
-<md-card *ngIf="hideEditForm">
-  <md-card-header class="bgc-grey-00" layout="row" style="margin-bottom: 50px">
-    <md-card-title>
-      <span class="md-title bgc-blue-A200"></span>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content>
-    <md-list flex>
-      <app-work-table [works]="works"
+<mat-card *ngIf="hideEditForm">
+  <mat-card-header class="bgc-grey-00" layout="row">
+    <mat-card-title>
+      <span class="mat-headline">{{ msg }}</span>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list flex>
+      <app-work-table [workItems]="workItems"
                       (selected)="select($event)">
       </app-work-table>
-    </md-list>
-  </md-card-content>
-</md-card>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
