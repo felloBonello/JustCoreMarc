@@ -1,11 +1,13 @@
 const con = require('../database/mysql').con;
 const mysql = require('mysql');
 
-const ALL_WORK_ITEMS =
+const AVAILABLE_WORK_ITEMS =
     "SELECT "
     + "Work_Id 	          as workId, "
-    + "Has_Details        as hasDetails "
-    + "FROM WORK;";
+    + "Has_Details        as hasDetails, "
+    + "Employee_Id        as employeeId "
+    + "FROM WORK "
+    + "WHERE Employee_Id IS NULL;";
 
 const DAYS_OFF_BY_WORK_ID =
     "SELECT "
@@ -38,6 +40,11 @@ const RUNS_BY_WORK_ID =
     + "INNER JOIN DAY AS day_on On day_on.Day_Id = r.Days_On_Id "
     + "WHERE r.Work_Id = ?;";
 
+const UPDATE_WORK_ITEM =
+    "UPDATE WORK " +
+    "SET Employee_Id = ? " +
+    "WHERE Work_Id = ?; ";
+
 module.exports = {
 
     workItems: [],
@@ -45,9 +52,9 @@ module.exports = {
     fill: function () {
         let workItems = this.workItems;
 
-        con.query(ALL_WORK_ITEMS, function(err, results) {
+        con.query(AVAILABLE_WORK_ITEMS, function(err, results) {
             if (err) {
-                console.log(werr);
+                console.log(err);
             }
 
             for (let i = 0; i < results.length; ++i) {
@@ -55,6 +62,7 @@ module.exports = {
 
                 item.workId = results[i].workId;
                 item.hasDetails = results[i].hasDetails;
+                item.employeeId = results[i].employeeId;
                 item.daysOff = [];
                 item.runs = [];
 
@@ -76,6 +84,40 @@ module.exports = {
                 });
             }
         });
+    },
+
+    selectWorkItem: function(workId, employeeId) {
+
+        let item = null;
+        let index = -1;
+
+        for (i = 0; i < this.workItems.length; i++) {
+            if(this.workItems[i].workId === workId) {
+                item = this.workItems[i];
+                index = i;
+            }
+        }
+
+        if (item == null) {
+            console.log("work id " + workId + " not found.");
+            return -1;
+        }
+        else {
+            item.employeeId = employeeId;
+
+            this.workItems.splice(index, 1);
+
+            console.log(this.workItems);
+
+            con.query(mysql.format(UPDATE_WORK_ITEM, [employeeId, workId]), function(err, results) {
+                if (err) {
+                    console.log(err);
+                    return -1;
+                } else {
+                    return workId;
+                }
+            });
+        }
     }
 };
 

@@ -26,6 +26,8 @@ let CreateSchedule = () => {
                 const time = moment().format('YYYY-MM-DD HH:mm:ss');
                 console.log(time);
 
+
+
                 con.query(mysql.format(UPDATE_EMPLOYEE, [time]), function(err, results) {
                     if (err) {
                         console.log(err); //TODO: log this with npm package morgan.

@@ -12,7 +12,7 @@ import { LoginModule } from './login/login.module';
 import { WorkModule } from './work/work.module';
 import { routing } from './app.routing';
 import { RestfulService } from './restful.service';
-import { AuthGuard } from './auth-guard'
+import { AuthGuard } from './auth-guard';
 
 @NgModule({
   declarations: [

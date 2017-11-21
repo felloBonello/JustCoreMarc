@@ -88,3 +88,20 @@ Authorization: _token here_
   }
 }
 ```
+
+### POST /v1/selectWorkItem
+##### Headers
+Authorization: _token here_
+#### Request
+```javascript
+{
+    "workId": 101,
+    "EmployeeId": 444
+}
+```
+#### Request
+```javascript
+{
+  "workId": -1
+}
+```
