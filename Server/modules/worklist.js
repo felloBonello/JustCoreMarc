@@ -134,11 +134,12 @@ module.exports = {
                             console.log(err);
                             callback(0, err);
                             return;
-                        }
+                        } else {
+                            let affectedRows = results.affectedRows;
 
-                        let affectedRows = results.affectedRows;
-                        callback(affectedRows, null);
-                        return;
+                            callback(affectedRows, null);
+                            return;
+                        }
                     });
                 }
             }

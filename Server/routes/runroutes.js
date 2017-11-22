@@ -1,5 +1,6 @@
 const oauth = require('../lib/oauth');
 const workList = require('../modules/worklist');
+const userList = require('../modules/userlist');
 
 
 /**
@@ -45,6 +46,8 @@ exports.selectWorkItem = (req, res) => {
 
         res.status(200);
 
+
+        //in the future the following function calls should be  transactional
         workList.selectWorkItem(req.body.workId, decoded.employeeId, function(result, err) {
             if (err) {
                 console.log(err);
@@ -52,10 +55,15 @@ exports.selectWorkItem = (req, res) => {
                 return res.send(err);
             }
 
+            //set employees allowable flag to false after they have made their selection
+            userList.updateEmployee(decoded.employeeId, false, function(result, err) {
+                if(err) {
+                    console.log(err);
+                }
+            });
+
             return res.send({affectedRows: result });
         });
-
-
     });
 
 
