@@ -45,6 +45,11 @@ const UPDATE_WORK_ITEM =
     "SET Employee_Id = ? " +
     "WHERE Work_Id = ?; ";
 
+const IS_ALLOWED =
+    "SELECT Is_Allowed as isAllowed " +
+    "FROM EMPLOYEE " +
+    "WHERE Employee_Id = ?; ";
+
 module.exports = {
 
     workItems: [],
@@ -86,40 +91,78 @@ module.exports = {
         });
     },
 
-    selectWorkItem: function(workId, employeeId) {
+    selectWorkItem: function(workId, employeeId, callback) {
 
-        let item = null;
-        let index = -1;
+        let workItems = this.workItems;
 
-        for (i = 0; i < this.workItems.length; i++) {
-            if(this.workItems[i].workId === workId) {
-                item = this.workItems[i];
-                index = i;
+        checkPermission(employeeId, function(results, err) {
+            let isAllowed = false;
+
+            if (err) {
+                console.log(err);
+                callback(0, err);
+                return;
             }
-        }
 
-        if (item == null) {
-            console.log("work id " + workId + " not found.");
-            return -1;
-        }
-        else {
-            item.employeeId = employeeId;
+            if(results.length > 0) {
+                isAllowed = results[0].isAllowed
+            }
 
-            this.workItems.splice(index, 1);
+            if (isAllowed) {
 
-            console.log(this.workItems);
+                let item = null;
+                let index = -1;
 
-            con.query(mysql.format(UPDATE_WORK_ITEM, [employeeId, workId]), function(err, results) {
-                if (err) {
-                    console.log(err);
-                    return -1;
-                } else {
-                    return workId;
+                for (i = 0; i < workItems.length; i++) {
+                    if(workItems[i].workId === workId) {
+                        item = workItems[i];
+                        index = i;
+                    }
                 }
-            });
-        }
+
+                if (item === null) {
+                    callback(0, 'work id ' + workId + ' not found.');
+                    return;
+                }
+                else {
+                    item.employeeId = employeeId;
+
+                    workItems.splice(index, 1);
+
+                    updateWorkItem(employeeId, workId, function(results, err) {
+                        if (err) {
+                            console.log(err);
+                            callback(0, err);
+                            return;
+                        }
+
+                        let affectedRows = results.affectedRows;
+                        callback(affectedRows, null);
+                        return;
+                    });
+                }
+            }
+            else{
+                callback(null, 'You aren\'t allowed to choose right now.');
+                return;
+            }
+        });
     }
 };
+
+
+function updateWorkItem(employeeId, workId, callback) {
+    con.query(mysql.format(UPDATE_WORK_ITEM, [employeeId, workId]), function(err, results) {
+        callback(results, err);
+    });
+}
+
+//check if employee is allowed to select a work item
+function checkPermission(employeeId, callback) {
+    con.query(mysql.format(IS_ALLOWED, employeeId), function(err, results) {
+        callback(results, err);
+    });
+}
 
 //fill days off array for work item
 function getDaysOff(workId, callback) {

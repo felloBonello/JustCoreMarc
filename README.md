@@ -96,12 +96,11 @@ Authorization: _token here_
 ```javascript
 {
     "workId": 101,
-    "EmployeeId": 444
 }
 ```
 #### Request
 ```javascript
 {
-  "workId": -1
+  "affectedRows": 1
 }
 ```

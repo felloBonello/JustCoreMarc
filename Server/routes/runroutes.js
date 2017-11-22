@@ -44,7 +44,19 @@ exports.selectWorkItem = (req, res) => {
         }
 
         res.status(200);
-        let workId = workList.selectWorkItem(req.body.workId, req.body.employeeId);
-        return res.send({workId: workId});
+
+        workList.selectWorkItem(req.body.workId, decoded.employeeId, function(result, err) {
+            if (err) {
+                console.log(err);
+                res.status(400);
+                return res.send(err);
+            }
+
+            return res.send({affectedRows: result });
+        });
+
+
     });
+
+
 }

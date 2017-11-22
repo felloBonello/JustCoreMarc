@@ -59,7 +59,7 @@ exports.authenticateUser = (userName, password, cb) => {
       if (hash == user.Password) {
 
         let employee = {};
-        employee.employeeId = user.Employees_Id;
+        employee.employeeId = user.Employee_Id;
         employee.firstName = user.First_Name;
         employee.lastName = user.Last_Name;
         employee.email = user.Email;
