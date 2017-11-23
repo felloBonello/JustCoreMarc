@@ -7,8 +7,8 @@ import { WorkItem } from './work-item';
 })
 export class RunsDetailComponent {
   @Input('run') set _workItem(value: WorkItem) {
-    this.selectedRuns = (<any>Object).assign({}, value);
+    this.selectedWorkItem = (<any>Object).assign({}, value);
   }
   @Input() workItems: WorkItem[];
-  selectedRuns: WorkItem;
+  selectedWorkItem: WorkItem;
 }

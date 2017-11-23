@@ -23,9 +23,9 @@ export class WorkHomeComponent implements  OnInit {
     this.msg = '';
     this.restService.load(BASEURL + '/workItems').subscribe(payload => {
         this.workItems = payload;
-        this.msg += ' work items loaded';
+        this.msg += 'Loaded a list of Work Items';
       },
-      err => {this.msg += 'Error occurred - work items not loaded - ' + err.status + ' - ' +
+      err => {this.msg += 'Error occurred - Work Items List not loaded - ' + err.status + ' - ' +
         err.statusText;
       });
   }
@@ -33,7 +33,7 @@ export class WorkHomeComponent implements  OnInit {
   select(workItem: WorkItem) {
     this.todo = 'update';
     this.selectedWorkItem = workItem;
-    this.msg = 'Work item ' + workItem.workId + ' selected';
+    this.msg = 'Work Item Group, No.' + workItem.workId + ' Selected';
     this.hideRunTable = !this.hideRunTable;
   } // select
 
@@ -42,7 +42,7 @@ export class WorkHomeComponent implements  OnInit {
    */
   cancel(msg?: string) {
     if (msg) {
-      this.msg = 'Operation cancelled';
+      this.msg = 'Loaded a list of Work Items';
     }
     this.hideRunTable = !this.hideRunTable;
   } // cancel
