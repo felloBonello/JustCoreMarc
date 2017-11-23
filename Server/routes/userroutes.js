@@ -9,34 +9,34 @@ exports.login = (req, res) => {
   //check if an authorization header already exists
   if (req.headers.authorization) {
     res.status(400);
-    return res.send({error: `You are required to logout before you login`});
+    return res.send({ error: `You are required to logout before you login` });
   }
 
   //check if username and password were supplied
   if (!req.body.userName) {
     res.status(400);
-    return res.send({error: "username is required"});
+    return res.send({ error: "username is required" });
   } else if (!req.body.password) {
     res.status(400);
-    return res.send({error: "password is required"});
+    return res.send({ error: "password is required" });
   }
 
-  oauth.authenticateUser(req.body.userName, req.body.password, function(err, data) {
+  oauth.authenticateUser(req.body.userName, req.body.password, function (err, data) {
     if (err) {
       res.status(err.status);
-      return res.send({error: err.error});
+      return res.send({ error: err.error });
     }
-    else{
+    else {
 
-        oauth.readJWT(data.token, function(err, decoded) {
-            if (err) {
-                res.status(err.status);
-                return res.send({error: err.error});
-            }
+      oauth.readJWT(data.token, function (err, decoded) {
+        if (err) {
+          res.status(err.status);
+          return res.send({ error: err.error });
+        }
 
-            userList.join(data.employee);
-            return res.send({token: data.token, isAllowed: decoded.isAllowed});
-        });
+        userList.join(data.employee);
+        return res.send({token: data.token, isAllowed: decoded.isAllowed});
+      });
     }
   });
 }
@@ -49,35 +49,35 @@ exports.creatuser = (req, res) => {
   //check if an authorization header alreay exists
   if (req.headers.authorization) {
     res.status(400);
-    return res.send({error: `You are required to logout before you login`});
+    return res.send({ error: `You are required to logout before you login` });
   }
 
   //check if all required fields were entered
   let user = req.body;
   let errors = [];
   if (!user.firstName) {
-    errors.push({error: 'firstName is required'});
+    errors.push({ error: 'firstName is required' });
   }
   if (!user.lastName) {
-    errors.push({error: 'lastName is required'});
+    errors.push({ error: 'lastName is required' });
   }
   if (!user.email) {
-    errors.push({error: 'email is required'});
+    errors.push({ error: 'email is required' });
   }
   if (!user.dob) {
-    errors.push({error: 'dateOfBirth is required'});
+    errors.push({ error: 'dateOfBirth is required' });
   }
   if (!user.employeeNumber) {
-    errors.push({error: 'employeeNumber is required'});
-  } 
+    errors.push({ error: 'employeeNumber is required' });
+  }
   /*if (!user.seniority) {
     errors.push({error: 'seniority is required'});
   } */
   if (!user.userName) {
-    errors.push({error: 'username is required'});
+    errors.push({ error: 'username is required' });
   }
   if (!user.password) {
-    errors.push({error: 'password is required'});
+    errors.push({ error: 'password is required' });
   }
 
   //check if any errors occured
@@ -86,14 +86,14 @@ exports.creatuser = (req, res) => {
     return res.send(errors);
   }
 
-  oauth.registerUser(user, function(err, data) {
+  oauth.registerUser(user, function (err, data) {
     if (err) {
       res.status(err.status);
-      return res.send({error: err.error});
+      return res.send({ error: err.error });
     }
-    else{
-        userList.join(data.employee);
-        return res.send({token: data.token});
+    else {
+      userList.join(data.employee);
+      return res.send({ token: data.token });
     }
   });
 }
@@ -107,16 +107,16 @@ exports.userinfo = (req, res) => {
   const token = req.headers.authorization;
   if (!token) {
     res.status(400);
-    return res.send({error: `Authorization token is missing`});
+    return res.send({ error: `Authorization token is missing` });
   }
 
-  oauth.readJWT(token, function(err, decoded) {
+  oauth.readJWT(token, function (err, decoded) {
     if (err) {
       res.status(err.status);
-      return res.send({error: err.error});
+      return res.send({ error: err.error });
     }
 
     res.status(200);
-    return res.send({decoded});
+    return res.send({ decoded });
   });
 }

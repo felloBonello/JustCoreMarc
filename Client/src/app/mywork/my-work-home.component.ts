@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
-import { WorkItem } from './work-item';
+import { WorkItem } from './my-work-item';
 import { RestfulService } from '../restful.service';
 import { BASEURL } from '../constants';
 
 @Component({
   selector: 'app-work',
-  templateUrl: 'work-home.html'
+  templateUrl: 'my-work-home.html'
 })
-export class WorkHomeComponent implements  OnInit {
+export class MyWorkHomeComponent implements  OnInit {
   workItems: Array<WorkItem>;
   selectedWorkItem: WorkItem;
   hideEditForm: boolean;
@@ -21,9 +21,9 @@ export class WorkHomeComponent implements  OnInit {
 
   ngOnInit() {
     this.msg = '';
-    this.restService.load(BASEURL + '/workItems').subscribe(payload => {
+    this.restService.load(BASEURL + '/workItems/me').subscribe(payload => {
         this.workItems = payload.workItems;
-        this.msg += ' Available Work Ttems loaded';
+        this.msg += ' My Work Items loaded';
       },
       err => {this.msg += 'Error occurred - work items not loaded - ' + err.status + ' - ' +
         err.statusText;
