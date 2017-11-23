@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
       console.log(payload);
       localStorage.setItem('token', payload.token);
       localStorage.setItem('name', credentials.userName);
+      localStorage.setItem('isAllowed', payload.isAllowed);
       this.router.navigate(['home']);
       },
       err => {

@@ -83,6 +83,7 @@ Authorization: _token here_
     "dateOfBirth": "1990-01-01T05:00:00.000Z",
     "employeeNumber": 1,
     "seniority": 353,
+    "isAllowed": true,
     "username": "Foo",
     "iat": 1506444894
   }

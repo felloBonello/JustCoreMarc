@@ -27,8 +27,16 @@ exports.login = (req, res) => {
       return res.send({error: err.error});
     }
     else{
-        userList.join(data.employee);
-        return res.send({token: data.token});
+
+        oauth.readJWT(data.token, function(err, decoded) {
+            if (err) {
+                res.status(err.status);
+                return res.send({error: err.error});
+            }
+
+            userList.join(data.employee);
+            return res.send({token: data.token, isAllowed: decoded.isAllowed});
+        });
     }
   });
 }
