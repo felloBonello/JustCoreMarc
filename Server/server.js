@@ -26,6 +26,7 @@ app.post('/v1/login', userroutes.login);
 app.get('/v1/userinfo', userroutes.userinfo);
 //-runroutes
 app.get('/v1/workItems', runroutes.workItems);
+app.get('/v1/workItems/me', runroutes.myWorkItems);
 app.post('/v1/selectWorkItem', runroutes.selectWorkItem);
 
 

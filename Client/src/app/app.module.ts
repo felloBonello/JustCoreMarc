@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginModule } from './login/login.module';
 import { WorkModule } from './work/work.module';
+import { MyWorkModule } from './mywork/my-work.module';
 import { routing } from './app.routing';
 import { RestfulService } from './restful.service';
 import { AuthGuard } from './auth-guard';
@@ -34,6 +35,7 @@ import { AuthGuard } from './auth-guard';
     RouterModule,
     LoginModule,
     WorkModule,
+    MyWorkModule,
     routing
   ],
   providers: [RestfulService, AuthGuard],
