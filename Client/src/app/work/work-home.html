@@ -26,7 +26,8 @@
 
   <mat-card-content>
     <mat-list flex>
-      <app-runs-detail [workItems]="selectedWorkItem">
+      <app-runs-detail [workItems]="selectedWorkItem"
+                       (cancelled)="cancel('cancelled')">
       </app-runs-detail>
     </mat-list>
   </mat-card-content>

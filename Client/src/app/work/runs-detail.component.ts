@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { WorkItem } from './work-item';
 
 @Component({
@@ -10,5 +10,6 @@ export class RunsDetailComponent {
     this.selectedWorkItem = (<any>Object).assign({}, value);
   }
   @Input() workItems: WorkItem[];
+  @Output() cancelled = new EventEmitter();
   selectedWorkItem: WorkItem;
 }
