@@ -1,47 +1,59 @@
 <table td-data-table style="top:-30px;position:relative;">
-  <thead>
     <tr td-data-table-row>
-      <th (click)="sortWorkItems('workId')">
-        No.
+      <th td-data-table-cell (click)="sortWorkItems('workId')">
+        <span class="pad-left-sm">No.</span>
+        <mat-icon *ngIf="!sortOrder && sortedColumn === 'workId';">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="sortOrder && sortedColumn === 'workId';">arrow_drop_up</mat-icon>
+        <mat-icon *ngIf="sortedColumn !== 'workId';"></mat-icon>
       </th>
-      <th (click)="sortWorkItems('routeNumber')">
+
+      <th td-data-table-cell>
         Rt.
       </th>
-      <th (click)="sortWorkItems('daysOn')">
+
+      <th td-data-table-cell>
         Day
       </th>
-      <th (click)="sortWorkItems('timeOn')">
+
+      <th td-data-table-cell>
         Time On
       </th>
-      <th (click)="sortWorkItems('timeOff')">
+
+      <th td-data-table-cell>
         Time Off
       </th>
-      <th (click)="sortWorkItems('daysOff')">
+
+      <th td-data-table-cell>
         Days Off
       </th>
     </tr>
-  </thead>
 
   <ng-container *ngFor="let item of workItems;">
     <ng-container *ngFor="let run of item.runs; let first=first; let last=last">
-      <tr *ngIf="last" td-data-table-row style="height: inherit">
+
+      <tr *ngIf="last" td-data-table-row style="height: inherit" (click)="selected.emit(run)">
         <td>
         <span *ngIf="first">
           {{item.workId}}
         </span>
         </td>
+
         <td style="text-align: center">
           {{run.routeNumber}}
         </td>
+
         <td style="text-align: center">
           {{run.daysOn}}
         </td>
+
         <td style="text-align: center">
           {{run.timeOn}}
         </td>
+
         <td style="text-align: center">
           {{run.timeOff}}
         </td>
+
         <td style="text-align: center">
         <span *ngIf="item.daysOff.length > 0 && first">
           {{item.daysOff[0].day}}
@@ -50,27 +62,33 @@
           {{item.daysOff[1].day}}
         </span>
         </td>
+
       </tr>
 
 
-      <tr *ngIf="!last">
+      <tr *ngIf="!last"(click)="selected.emit(run)">
         <td>
         <span *ngIf="first">
           {{item.workId}}
         </span>
         </td>
+
         <td style="text-align: center">
           {{run.routeNumber}}
         </td>
+
         <td style="text-align: center">
           {{run.daysOn}}
         </td>
+
         <td style="text-align: center">
           {{run.timeOn}}
         </td>
+
         <td style="text-align: center">
           {{run.timeOff}}
         </td>
+
         <td style="text-align: center">
         <span *ngIf="item.daysOff.length > 0 && first">
           {{item.daysOff[0].day}}
@@ -79,6 +97,7 @@
           {{item.daysOff[1].day}}
         </span>
         </td>
+
       </tr>
     </ng-container>
   </ng-container>

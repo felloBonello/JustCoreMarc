@@ -1,9 +1,11 @@
-<mat-card *ngIf="hideEditForm">
+<mat-card *ngIf="hideRunTable">
+
   <mat-card-header class="bgc-grey-00" layout="row">
     <mat-card-title>
       <span class="mat-headline">{{ msg }}</span>
     </mat-card-title>
   </mat-card-header>
+
   <mat-card-content>
     <mat-list flex>
       <app-work-table [workItems]="workItems"
@@ -11,4 +13,22 @@
       </app-work-table>
     </mat-list>
   </mat-card-content>
+
+</mat-card>
+
+<mat-card *ngIf="!hideRunTable">
+
+  <mat-card-header class="bgc-grey-00" layout="row">
+    <mat-card-title>
+      <span class="mat-headline">{{ msg }}</span>
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-list flex>
+      <app-runs-detail [workItems]="selectedRuns">
+      </app-runs-detail>
+    </mat-list>
+  </mat-card-content>
+
 </mat-card>

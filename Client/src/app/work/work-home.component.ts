@@ -11,12 +11,12 @@ import { BASEURL } from '../constants';
 export class WorkHomeComponent implements  OnInit {
   workItems: Array<WorkItem>;
   selectedWorkItem: WorkItem;
-  hideEditForm: boolean;
+  hideRunTable: boolean;
   msg: string;
   todo: string;
   url: string;
   constructor(private restService: RestfulService) {
-    this.hideEditForm = true;
+    this.hideRunTable = true;
   } // constructor
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class WorkHomeComponent implements  OnInit {
     this.todo = 'update';
     this.selectedWorkItem = workItem;
     this.msg = 'Work item ' + workItem.workId + ' selected';
-    this.hideEditForm = !this.hideEditForm;
+    this.hideRunTable = !this.hideRunTable;
   } // select
 
   /**
@@ -44,7 +44,7 @@ export class WorkHomeComponent implements  OnInit {
     if (msg) {
       this.msg = 'Operation cancelled';
     }
-    this.hideEditForm = !this.hideEditForm;
+    this.hideRunTable = !this.hideRunTable;
   } // cancel
 
 } // WorkHomeComponent class

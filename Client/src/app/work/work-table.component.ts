@@ -10,7 +10,6 @@ import { WorkItem } from './work-item';
 export class WorkTableComponent {
   @Input() workItems: WorkItem[];
   @Output() selected = new EventEmitter();
-  @Output() newed = new EventEmitter();
   sortedWorkItems: WorkItem[];
   sortOrder = true;
   sortedColumn = 'workId';
