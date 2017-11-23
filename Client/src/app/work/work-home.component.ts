@@ -33,7 +33,7 @@ export class WorkHomeComponent implements  OnInit {
   select(workItem: WorkItem) {
     this.todo = 'update';
     this.selectedWorkItem = workItem;
-    this.msg = 'Work Item Group, No.' + workItem.workId + ' Selected';
+    this.msg = 'Work Items from Group, No.' + workItem.workId + ' Selected';
     this.hideRunTable = !this.hideRunTable;
   } // select
 
