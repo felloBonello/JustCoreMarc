@@ -3,13 +3,29 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
-const http = require('http')
 const schedule = require('./schedule/create_schedule');
+//const socket = require('./routes/socketroutes')
+const http = require('http')
 let server = http.createServer(app)
-const socket = require('./routes/socketroutes')
 const io = require('socket.io').listen(server);
 
-io.sockets.on('connection', socket);
+
+io.on( 'connection', function ( socket )
+{
+    console.log('new connection established')
+
+    io.on('select.run', (data) => {
+        io.broadcast.emit('remove.run',
+            {
+                //TODO
+            }
+        )
+    })
+
+    io.on('disconnect', (data) => {
+        console.log('connection disconnected')
+    })
+})
 
 app.use(cors());
 

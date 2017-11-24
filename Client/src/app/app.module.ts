@@ -13,12 +13,17 @@ import { WorkModule } from './work/work.module';
 import { routing } from './app.routing';
 import { RestfulService } from './restful.service';
 import { AuthGuard } from './auth-guard';
+import { UpdateFlagService } from './updateflag.service'
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
   declarations: [
     AppComponent, HomeComponent
   ],
   imports: [
+    SocketIoModule.forRoot(config),
     BrowserAnimationsModule,
     BrowserModule,
     CovalentLayoutModule,
@@ -36,7 +41,7 @@ import { AuthGuard } from './auth-guard';
     WorkModule,
     routing
   ],
-  providers: [RestfulService, AuthGuard],
+  providers: [RestfulService, AuthGuard, UpdateFlagService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

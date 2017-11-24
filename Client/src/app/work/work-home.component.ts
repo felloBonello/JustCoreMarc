@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { WorkItem } from './work-item';
 import { RestfulService } from '../restful.service';
 import { BASEURL } from '../constants';
+import { UpdateFlagService } from '../updateflag.service'
 
 @Component({
   selector: 'app-work',
@@ -15,7 +16,7 @@ export class WorkHomeComponent implements  OnInit {
   msg: string;
   todo: string;
   url: string;
-  constructor(private restService: RestfulService) {
+  constructor(private restService: RestfulService, private updateFlag: UpdateFlagService) {
     this.hideEditForm = true;
   } // constructor
 
@@ -28,6 +29,8 @@ export class WorkHomeComponent implements  OnInit {
       err => {this.msg += 'Error occurred - work items not loaded - ' + err.status + ' - ' +
         err.statusText;
       });
+
+    this.updateFlag.update();
   }
 
   select(workItem: WorkItem) {
