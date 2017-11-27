@@ -64,16 +64,20 @@ exports.myWorkItems = (req, res) => {
  * Select a work item based on work id
  */
 exports.selectWorkItem = (req, res) => {
+  console.log(req.body);
 
   //check if an authorization header exists
   const token = req.headers.authorization;
+  console.log(req.headers.authorization)
   if (!token) {
+    console.log('error')
     res.status(400);
     return res.send({ error: `You are required to be logged in to view runs` });
   }
 
   oauth.readJWT(token, function (err, decoded) {
     if (err) {
+      console.log(err);
       res.status(err.status);
       return res.send({ error: err.error });
     }

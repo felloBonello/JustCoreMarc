@@ -40,6 +40,19 @@ export class RestfulService {
   } // add
 
   /**
+   * select run
+   */
+  selectRun(url: string, entity: any)
+  {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+       .set('Authorization', localStorage.getItem('token'));
+    console.log(headers);
+    const params = JSON.stringify({workId: entity});
+    console.log(params)
+    return this.http.post<any>(url + '/selectWorkItem', params, {headers: headers});
+  }//select run
+
+  /**
    * delete an entity using http delete, return number of entities deleted
    */
   delete(url: string, id: any) {
