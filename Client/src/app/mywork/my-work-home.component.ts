@@ -1,31 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 
-import { WorkItem } from './work-item';
+import { WorkItem } from './my-work-item';
 import { RestfulService } from '../restful.service';
 import { BASEURL } from '../constants';
 
 @Component({
   selector: 'app-work',
-  templateUrl: 'work-home.html'
+  templateUrl: 'my-work-home.html'
 })
-export class WorkHomeComponent implements  OnInit {
+export class MyWorkHomeComponent implements  OnInit {
   workItems: Array<WorkItem>;
   selectedWorkItem: WorkItem;
-  hideRunTable: boolean;
+  hideEditForm: boolean;
   msg: string;
   todo: string;
   url: string;
   constructor(private restService: RestfulService) {
-    this.hideRunTable = true;
+    this.hideEditForm = true;
   } // constructor
 
   ngOnInit() {
     this.msg = '';
-    this.restService.load(BASEURL + '/workItems').subscribe(payload => {
+    this.restService.load(BASEURL + '/workItems/me').subscribe(payload => {
         this.workItems = payload.workItems;
-        this.msg += ' Available Work Ttems loaded';
+        this.msg += ' My Work Items loaded';
       },
-      err => {this.msg += 'Error occurred - Work Items List not loaded - ' + err.status + ' - ' +
+      err => {this.msg += 'Error occurred - work items not loaded - ' + err.status + ' - ' +
         err.statusText;
       });
   }
@@ -33,8 +33,8 @@ export class WorkHomeComponent implements  OnInit {
   select(workItem: WorkItem) {
     this.todo = 'update';
     this.selectedWorkItem = workItem;
-    this.msg = 'Work Items from Group, No.' + workItem.workId + ' Selected';
-    this.hideRunTable = !this.hideRunTable;
+    this.msg = 'Work item ' + workItem.workId + ' selected';
+    this.hideEditForm = !this.hideEditForm;
   } // select
 
   /**
@@ -42,9 +42,9 @@ export class WorkHomeComponent implements  OnInit {
    */
   cancel(msg?: string) {
     if (msg) {
-      this.msg = 'Loaded a list of Work Items';
+      this.msg = 'Operation cancelled';
     }
-    this.hideRunTable = !this.hideRunTable;
+    this.hideEditForm = !this.hideEditForm;
   } // cancel
 
 } // WorkHomeComponent class
