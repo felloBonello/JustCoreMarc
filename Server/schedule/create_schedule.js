@@ -6,7 +6,7 @@ const ALL_SCHEDULE_DAYS = "SELECT * FROM BID_SCHEDULE";
 const UPDATE_EMPLOYEE = "UPDATE Employee SET Is_Allowed = true WHERE Bid_Time = ?";
 const MS_PER_MINUTE = 60000;
 
-let CreateSchedule = () => {
+let CreateSchedule = (io) => {
 
     con.query(ALL_SCHEDULE_DAYS, function(err, results) {
         if (err) {
@@ -32,6 +32,7 @@ let CreateSchedule = () => {
                     if (err) {
                         console.log(err); //TODO: log this with npm package morgan.
                     }
+                    io.emit('updateFlag');
                 });
             });
         }

@@ -12,12 +12,10 @@ const io = require('socket.io').listen(server);
 
 io.on( 'connection', function ( socket )
 {
-    console.log('new connection established')
-
+    io.emit('updateFlag');
     io.on('select.run', (data) => {
         io.broadcast.emit('remove.run',
             {
-                //TODO
             }
         )
     })
@@ -53,4 +51,4 @@ if (!module.parent) {
 }
 
 workList.fill();
-schedule.CreateSchedule();
+schedule.CreateSchedule(io);

@@ -3,17 +3,20 @@ var userList = require('../modules/userlist');
 
 // export function for listening to the socket
 module.exports = function (socket) {
-    console.log('new connection established')
+    io.on( 'connection', function ( socket )
+    {
+        console.log('new connection established')
+        io.emit('updateFlag');
+        io.on('select.run', (data) => {
+            io.broadcast.emit('remove.run',
+                {
+                    //TODO
+                }
+            )
+        })
 
-    socket.on('select.run', (data) => {
-        socket.broadcast.emit('remove.run',
-            {
-                //TODO
-            }
-        )
-    })
-
-    socket.on('disconnect', (data) => {
-        userList.leave(data.employeeId);
+        io.on('disconnect', (data) => {
+            console.log('connection disconnected')
+        })
     })
 };
