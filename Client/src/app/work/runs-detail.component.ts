@@ -9,7 +9,12 @@ export class RunsDetailComponent {
   @Input('run') set _workItem(value: WorkItem) {
     this.selectedWorkItem = (<any>Object).assign({}, value);
   }
-  @Input() workItems: WorkItem[];
   @Output() cancelled = new EventEmitter();
+  @Output() selected = new EventEmitter();
   selectedWorkItem: WorkItem;
+
+  test: any;
+  constructor () {
+    this.test = this.selectedWorkItem;
+  }
 }
