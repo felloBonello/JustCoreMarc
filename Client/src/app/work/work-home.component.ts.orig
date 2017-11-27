@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { WorkItem } from './work-item';
 import { RestfulService } from '../restful.service';
 import { BASEURL } from '../constants';
+import { UpdateFlagService } from '../updateflag.service'
 
 @Component({
   selector: 'app-work',
@@ -15,24 +16,26 @@ export class WorkHomeComponent implements  OnInit {
   msg: string;
   todo: string;
   url: string;
+<<<<<<< HEAD
   constructor(private restService: RestfulService) {
     this.hideRunTable = true;
+=======
+  constructor(private restService: RestfulService, private updateFlag: UpdateFlagService) {
+    this.hideEditForm = true;
+>>>>>>> origin/SocketIO
   } // constructor
 
   ngOnInit() {
     this.msg = '';
     this.restService.load(BASEURL + '/workItems').subscribe(payload => {
-<<<<<<< HEAD
-        this.workItems = payload;
-        this.msg += 'Loaded a list of Work Items';
-=======
         this.workItems = payload.workItems;
         this.msg += ' Available Work Ttems loaded';
->>>>>>> 9c0824a1e2df26133473b7a1d5dd0ac1c9a5110b
       },
       err => {this.msg += 'Error occurred - Work Items List not loaded - ' + err.status + ' - ' +
         err.statusText;
       });
+
+    this.updateFlag.update();
   }
 
   select(workItem: WorkItem) {
