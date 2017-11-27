@@ -14,7 +14,7 @@ export class RunsDetailComponent {
   selectedWorkItem: WorkItem;
 
   test: any;
-  constructor () {
+  ngOnInit() {
     this.test = this.selectedWorkItem;
   }
 }
