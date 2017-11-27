@@ -15,7 +15,6 @@ export class WorkHomeComponent implements  OnInit {
   hideRunTable: boolean;
   msg: string;
   todo: string;
-  url: string;
   constructor(private restService: RestfulService, private updateFlag: UpdateFlagService) {
     this.hideRunTable = true;
   } // constructor
@@ -24,7 +23,7 @@ export class WorkHomeComponent implements  OnInit {
     this.msg = '';
     this.restService.load(BASEURL + '/workItems').subscribe(payload => {
         this.workItems = payload.workItems;
-        this.msg += ' Available Work Ttems loaded';
+        this.msg += ' Available Work Items loaded';
       },
       err => {this.msg += 'Error occurred - Work Items List not loaded - ' + err.status + ' - ' +
         err.statusText;
@@ -34,9 +33,9 @@ export class WorkHomeComponent implements  OnInit {
   }
 
   select(workItem: WorkItem) {
-    this.todo = 'update';
+    this.todo = 'details';
     this.selectedWorkItem = workItem;
-    this.msg = 'Work Items from Group, No.' + workItem.workId + ' Selected';
+    this.msg = 'Showing run details from group No.' + workItem.workId + '.';
     this.hideRunTable = !this.hideRunTable;
   } // select
 

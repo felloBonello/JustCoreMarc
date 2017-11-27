@@ -13,8 +13,8 @@ export class RunsDetailComponent {
   @Output() selected = new EventEmitter();
   selectedWorkItem: WorkItem;
 
-  test: any;
+  runDetails: any;
   ngOnInit() {
-    this.test = this.selectedWorkItem;
+    this.runDetails = this.selectedWorkItem;
   }
 }
