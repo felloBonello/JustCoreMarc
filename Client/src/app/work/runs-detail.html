@@ -1,8 +1,37 @@
-<div>
-  <p>{{runDetails.daysOn}}</p>
-</div>
+<h1 style="color: green">Detail View</h1>
+<div>Run ID: {{runDetails.runId}}</div>
+<br>
+<div>Work ID: {{runDetails.workId}}</div>
+<br>
+<div>Run Number: {{runDetails.runNumber}}</div>
+<br>
+<div>Days On: {{runDetails.daysOn}}</div>
+<br>
+<div>Release Point {{runDetails.releasePoint}}</div>
+<br>
+<div>Time On: {{runDetails.timeOn}}</div>
+<br>
+<div>Time Off: {{runDetails.timeOff}}</div>
+<br>
+<div>End Point: {{runDetails.endPoint}}</div>
+<br>
+<div>Platform Time: {{runDetails.platformTime}}</div>
+<br>
+<div>Report Time: {{runDetails.reportTime}}</div>
+<br>
+<div>Travel Time: {{runDetails.travelTime}}</div>
+<br>
+<div>Pays: {{runDetails.pays}}</div>
+<br>
+<div>Spread Time: {{runDetails.spreadTime}}</div>
+<br>
+<div>Special Details: {{runDetails.specialDetails}}</div>
+<br>
+<div>Is Show Up: {{runDetails.isShowUp}}</div>
+<br>
+
 <div class="md-pad-sm">
   <span>
- <button mat-raised-button type="button" (click)="cancelled.emit(selectedWorkItems)">Back</button>
+ <button mat-raised-button type="button" (click)="cancelled.emit(selectedWorkItems)">Go Back</button>
  </span>
 </div>
