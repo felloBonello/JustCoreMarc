@@ -1,9 +1,10 @@
 const schedule = require('node-schedule');
 const con = require('../database/mysql').con;
+const mysql = require('mysql');
 const moment = require('moment');
 
 const ALL_SCHEDULE_DAYS = "SELECT * FROM BID_SCHEDULE";
-const UPDATE_EMPLOYEE = "UPDATE Employee SET Is_Allowed = true WHERE Bid_Time = ?";
+const UPDATE_EMPLOYEE = "UPDATE EMPLOYEE SET Is_Allowed = true WHERE Bid_Time = ?";
 const MS_PER_MINUTE = 60000;
 
 let CreateSchedule = () => {
