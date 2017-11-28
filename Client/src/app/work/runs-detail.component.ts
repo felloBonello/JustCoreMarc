@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { WorkItem } from './work-item';
 import { RestfulService } from '../restful.service'
-import { UpdateFlagService } from '../updateflag.service'
 import { BASEURL } from '../constants'
 
 @Component({
@@ -12,15 +11,17 @@ export class RunsDetailComponent {
   @Input('run') set _workItem(value: WorkItem) {
     this.selectedWorkItem = (<any>Object).assign({}, value);
   }
+  @Input('isAllowed') isAllowed: boolean;
   @Output() cancelled = new EventEmitter();
   @Output() selected = new EventEmitter();
   selectedWorkItem: WorkItem;
   runDetails: any;
   test: any;
 
-  constructor(private restService: RestfulService, private updateFlag: UpdateFlagService) { } // constructor
+  constructor(private restService: RestfulService) { } // constructor
 
   ngOnInit() {
+    console.log(this.isAllowed);
     this.runDetails = this.selectedWorkItem;
   }
 
@@ -29,10 +30,6 @@ export class RunsDetailComponent {
     this.restService.selectRun(BASEURL, workid).subscribe(payload => {
         console.log(payload);
         console.log(workid);
-        if(payload.affectedRows == 1)
-        {
-          this.updateFlag.update();
-        }
       },
       err => {
         //this.msg = 'Invalid user name or password';

@@ -1,35 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { WorkItem } from './work-item';
 import { RestfulService } from '../restful.service';
 import { BASEURL } from '../constants';
-import { UpdateFlagService } from '../updateflag.service'
+import { Socket } from 'ng-socket-io';
 
 @Component({
   selector: 'app-work',
   templateUrl: 'work-home.html'
 })
-export class WorkHomeComponent implements  OnInit {
+export class WorkHomeComponent implements OnInit {
+
   workItems: Array<WorkItem>;
   selectedWorkItem: WorkItem;
   hideRunTable: boolean;
   msg: string;
   todo: string;
-  constructor(private restService: RestfulService, private updateFlag: UpdateFlagService) {
+  socket: Socket;
+  isAllowed: boolean;
+
+  constructor(private restService: RestfulService, private _socket: Socket) {
     this.hideRunTable = true;
+    this.socket = _socket;
   } // constructor
 
+
   ngOnInit() {
+    //Socket Io listeners
+    this.socket.on('notifyPicker', function(_isAllowed) {
+      console.log('pick data = ' + _isAllowed);
+      this.isAllowed = _isAllowed;
+      if (this.isAllowed) {
+        alert('It is your turn to pick!');
+      }
+    }.bind(this));
+    //Ask server if it is your turn to pick.
+    this.socket.emit('doIPick', localStorage.getItem('token'));
+
     this.msg = '';
     this.restService.load(BASEURL + '/workItems').subscribe(payload => {
-        this.workItems = payload.workItems;
-        this.msg += ' Available Work Items loaded';
-      },
-      err => {this.msg += 'Error occurred - Work Items List not loaded - ' + err.status + ' - ' +
+      this.workItems = payload.workItems;
+      this.msg += ' Available Work Items loaded';
+    },
+      err => {
+      this.msg += 'Error occurred - Work Items List not loaded - ' + err.status + ' - ' +
         err.statusText;
       });
-
-    this.updateFlag.update();
   }
 
   select(workItem: WorkItem) {
