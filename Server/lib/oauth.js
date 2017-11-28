@@ -6,6 +6,30 @@ const con = require('../database/mysql').con;
 const constants = require('./constants');
 const utils = require('./utils');
 
+exports.isAllowedToPick = (token, cb) => {
+  this.readJWT(token, function (err, data) {
+    if (err) {
+      //TODO: fix this. treat failure as user can not pick.
+      return cb(null, false);
+    }
+
+    //using prepared statements.
+    const params = [data.employeeId];
+    const findUserTimeSQL = mysql.format('SELECT Is_Allowed FROM EMPLOYEE WHERE Employee_Id = ?', params);
+
+    con.query(findUserTimeSQL, function (err, result) {
+      //Check for SQL errors
+      if (err) {
+        //TODO: fix this. treat failure as user can not pick.
+        return cb(null, false);
+      }
+
+      var isAllowed = result[0].Is_Allowed === 1
+      return cb(null, isAllowed);
+    });
+  });
+}
+
 /**
  * Reads in a JWT token, verifies (decodes) the token and if valid invokes the 
  * callback with a EmployeeViewModel, if invalid invokes the callback with an error.
@@ -14,7 +38,7 @@ const utils = require('./utils');
  */
 exports.readJWT = (token, cb) => {
 
-  jwt.verify(token, process.env.SECRET, function(err, decoded) {
+  jwt.verify(token, process.env.SECRET, function (err, decoded) {
     if (err) {
       console.log(err); //TODO: log this with npm package morgan.
       cb(utils.createError(400, 'Invalid oauth token.'), null);
@@ -47,14 +71,14 @@ exports.authenticateUser = (userName, password, cb) => {
       cb(utils.createError(500, 'Database error. Please contact support.'), null);
       return;
     }
-    
+
     if (result.length === 0) {
       cb(utils.createError(400, `No employee exists with the user name ${userName}`), null);
       return;
     }
 
     let user = result[0];
-    hash({password: password, salt: user.Salt}, (err, pass, salt, hash) => {
+    hash({ password: password, salt: user.Salt }, (err, pass, salt, hash) => {
       //check if hash matches
       if (hash == user.Password) {
 
@@ -68,8 +92,8 @@ exports.authenticateUser = (userName, password, cb) => {
         employee.isAllowed = user.Is_Allowed;
         employee.bidTime = user.Bid_Time;
 
-        const token = jwt.sign(employee, process.env.SECRET, function(err, token) {
-          cb(null, {token: token, employee: employee});
+        const token = jwt.sign(employee, process.env.SECRET, function (err, token) {
+          cb(null, { token: token, employee: employee });
           return;
         });
 
@@ -110,7 +134,7 @@ exports.registerUser = (user, cb) => {
       return;
     }
 
-    hash({password: user.password}, (err, pass, salt, hash) => {
+    hash({ password: user.password }, (err, pass, salt, hash) => {
       //check for hash error
       if (err) {
         console.log(err); //TODO: log this with npm package morgan.
@@ -120,10 +144,10 @@ exports.registerUser = (user, cb) => {
 
       //using prepared statements to prevent sql injection
       const params = [constants.EMPLOYEE_TABLE, user.employeeNumber, user.firstName, user.lastName, user.email, user.dob,
-                      user.userName, false, hash, salt];
+      user.userName, false, hash, salt];
       const insertUserSQL = mysql.format('INSERT INTO ?? ' +
-      '(Employee_Id, First_Name, Last_Name, Email, Date_Of_Birth, User_Name, Is_Allowed, Password, Salt)' +
-      'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', params);
+        '(Employee_Id, First_Name, Last_Name, Email, Date_Of_Birth, User_Name, Is_Allowed, Password, Salt)' +
+        'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', params);
 
       con.query(insertUserSQL, function (err, result) {
         if (err) {
@@ -142,7 +166,7 @@ exports.registerUser = (user, cb) => {
         employee.userName = user.userName;
         employee.isAllowed = false;
 
-        jwt.sign(employee, process.env.SECRET, function(err, token) {
+        jwt.sign(employee, process.env.SECRET, function (err, token) {
           //I honestly don't know what could cause this error, best to check tho.
           if (err) {
             console.log(err); //TODO: log this with npm package morgan.
@@ -150,7 +174,7 @@ exports.registerUser = (user, cb) => {
             return;
           }
 
-          cb(null, {token: token, employee: employee} );
+          cb(null, { token: token, employee: employee });
           return;
         });
       });

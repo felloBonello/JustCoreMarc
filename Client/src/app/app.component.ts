@@ -8,5 +8,7 @@ import { Socket } from 'ng-socket-io';
 })
 
 export class AppComponent {
-  constructor(private socket: Socket) { console.log(socket)}
+
+  constructor() {}
+
 }

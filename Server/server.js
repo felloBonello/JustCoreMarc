@@ -4,27 +4,32 @@ const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
 const schedule = require('./schedule/create_schedule');
-//const socket = require('./routes/socketroutes')
 const http = require('http')
 let server = http.createServer(app)
 const io = require('socket.io').listen(server);
+const oauth = require('./lib/oauth');
 
 
-io.on( 'connection', function ( socket )
-{
-    console.log('new connection established')
+io.on('connection', function (socket) {
 
-    io.on('select.run', (data) => {
-        io.broadcast.emit('remove.run',
-            {
-                //TODO
-            }
-        )
+  console.log('new connection');
+
+  // socket.emit('notifyPicker', () => {
+    
+  // })
+
+  socket.on('doIPick', function(token) {
+    console.log('doIPick');
+    oauth.isAllowedToPick(token, function(err, isAllowed) {
+      if (err) {
+        console.log('Error when decoding token from socket ' + err);
+        socket.emit('notifyPicker', false);
+      } else {
+        socket.emit('notifyPicker', isAllowed);
+      }
     })
+  });
 
-    io.on('disconnect', (data) => {
-        console.log('connection disconnected')
-    })
 })
 
 app.use(cors());
@@ -49,7 +54,7 @@ app.post('/v1/selectWorkItem', runroutes.selectWorkItem);
 //make sure parent module starts to listen
 if (!module.parent) {
   server.listen(port, () => {
-      console.log(`Express started on port ${port}`);
+    console.log(`Express started on port ${port}`);
   })
 }
 

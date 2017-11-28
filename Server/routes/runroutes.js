@@ -11,7 +11,7 @@ exports.workItems = (req, res) => {
   //check if an authorization header exists
   const token = req.headers.authorization;
   if (!token) {
-    res.status(400);
+    res.status(401);
     return res.send({ error: `You are required to be logged in to view runs` });
   }
 
@@ -64,14 +64,12 @@ exports.myWorkItems = (req, res) => {
  * Select a work item based on work id
  */
 exports.selectWorkItem = (req, res) => {
-  console.log(req.body);
 
   //check if an authorization header exists
   const token = req.headers.authorization;
-  console.log(req.headers.authorization)
   if (!token) {
     console.log('error')
-    res.status(400);
+    res.status(401);
     return res.send({ error: `You are required to be logged in to view runs` });
   }
 

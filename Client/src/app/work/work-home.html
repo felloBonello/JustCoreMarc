@@ -25,9 +25,11 @@
   </mat-card-header>
 
   <mat-card-content>
+    
     <mat-list flex>
       <app-runs-detail (selected)="select($event)"
                        [run]="selectedWorkItem"
+                       [isAllowed]="isAllowed"
                        (cancelled)="cancel('cancelled')">
       </app-runs-detail>
     </mat-list>

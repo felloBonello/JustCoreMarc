@@ -32,7 +32,7 @@
 
 <div class="md-pad-sm">
     <span>
-    <button mat-raised-button ng-disabled="!isAllowed" type="submit"
+    <button mat-raised-button [disabled]="!isAllowed" type="submit"
             (click)="selectRun(runDetails.workId)">Select Run</button>
   </span>
   <span>
