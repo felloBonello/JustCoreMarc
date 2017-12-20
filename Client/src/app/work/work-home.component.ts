@@ -31,11 +31,23 @@ export class WorkHomeComponent implements OnInit {
       console.log('pick data = ' + _isAllowed);
       this.isAllowed = _isAllowed;
       if (this.isAllowed) {
-        alert('It is your turn to pick!');
+        //alert('It is your turn to pick!');
+
       }
     }.bind(this));
     //Ask server if it is your turn to pick.
     this.socket.emit('doIPick', localStorage.getItem('token'));
+
+    this.socket.on('remove.run', function(_id) {
+      console.log('pick data = ' + _id);
+      for(var i = 0; i < this.workItems.length; i++) {
+        var obj = this.workItems[i];
+        if(obj.workId == _id) {
+          this.workItems.splice(this.workItems.indexOf(obj), 1);
+           return;
+        }
+      }
+    }.bind(this));
 
     this.msg = '';
     this.restService.load(BASEURL + '/workItems').subscribe(payload => {

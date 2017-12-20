@@ -18,6 +18,15 @@ io.on('connection', function (socket) {
     
   // })
 
+    socket.on('select.run', (data) => {
+        socket.broadcast.emit('remove.run', data);
+        console.log("Work id is " + data);
+    })
+
+    socket.on('disconnect', (data) => {
+        console.log('connection disconnected')
+    })
+
   socket.on('doIPick', function(token) {
     console.log('doIPick');
     oauth.isAllowedToPick(token, function(err, isAllowed) {
