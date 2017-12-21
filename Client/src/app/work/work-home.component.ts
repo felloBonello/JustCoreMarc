@@ -18,6 +18,7 @@ export class WorkHomeComponent implements OnInit {
   todo: string;
   socket: Socket;
   isAllowed: boolean;
+  wasAllowed: boolean;
 
   constructor(private restService: RestfulService, private _socket: Socket, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.hideRunTable = true;
@@ -33,10 +34,23 @@ export class WorkHomeComponent implements OnInit {
     //Socket Io listeners
     this.socket.on('notifyPicker', function(_isAllowed) {
       console.log('pick data = ' + _isAllowed);
+      this.wasAllowed = this.isAllowed;
       this.isAllowed = _isAllowed;
-      if (this.isAllowed) {
-        alert("test");
-        this.toastr.custom('<span style="color: red">I am a mother fucking TOASTER</span>', null, {enableHTML: true});
+
+      if (this.isAllowed && !this.wasAllowed) {
+        this.toastr.custom('It is your time to pick!', 'Bid Time',
+          {
+            toastLife: 7000,
+            dismiss: 'auto',
+            newestOnTop: true,
+            showCloseButton: false,
+            maxShown: 0,
+            positionClass: 'toast-top-full-width',
+            messageClass: null,
+            titleClass: null,
+            animate: 'flyLeft',
+            enableHTML: false}
+            );
       }
     }.bind(this));
     //Ask server if it is your turn to pick.
