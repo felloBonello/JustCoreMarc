@@ -4,6 +4,7 @@ import { WorkItem } from './work-item';
 import { RestfulService } from '../restful.service';
 import { BASEURL } from '../constants';
 import { Socket } from 'ng-socket-io';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-work',
@@ -19,8 +20,9 @@ export class WorkHomeComponent implements OnInit {
   socket: Socket;
   isAllowed: boolean;
 
-  constructor(private restService: RestfulService, private _socket: Socket) {
+  constructor(private restService: RestfulService, private _socket: Socket, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.hideRunTable = true;
+    this.toastr.setRootViewContainerRef(vcr);
     this.socket = _socket;
   } // constructor
 
@@ -31,8 +33,7 @@ export class WorkHomeComponent implements OnInit {
       console.log('pick data = ' + _isAllowed);
       this.isAllowed = _isAllowed;
       if (this.isAllowed) {
-        //alert('It is your turn to pick!');
-
+        this.toastr.custom('<span style="color: red">I am a mother fucking TOASTER</span>', null, {enableHTML: true});
       }
     }.bind(this));
     //Ask server if it is your turn to pick.

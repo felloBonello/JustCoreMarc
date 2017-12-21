@@ -15,6 +15,7 @@ import { routing } from './app.routing';
 import { RestfulService } from './restful.service';
 import { AuthGuard } from './auth-guard';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
@@ -26,6 +27,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     SocketIoModule.forRoot(config),
     BrowserAnimationsModule,
     BrowserModule,
+    ToastModule.forRoot(),
     CovalentLayoutModule,
     CovalentStepsModule,
     FormsModule,
