@@ -3,10 +3,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
-const schedule = require('./schedule/create_schedule');
 const http = require('http')
 let server = http.createServer(app)
 const io = require('socket.io').listen(server);
+const schedule = require('./schedule/create_schedule');
 const oauth = require('./lib/oauth');
 
 
@@ -14,18 +14,15 @@ io.on('connection', function (socket) {
 
   console.log('new connection');
 
-  // socket.emit('notifyPicker', () => {
-    
-  // })
 
     socket.on('select.run', (data) => {
         socket.broadcast.emit('remove.run', data);
         console.log("Work id is " + data);
-    })
+    });
 
     socket.on('disconnect', (data) => {
         console.log('connection disconnected')
-    })
+    });
 
   socket.on('doIPick', function(token) {
     console.log('doIPick');
@@ -68,4 +65,4 @@ if (!module.parent) {
 }
 
 workList.fill();
-schedule.CreateSchedule();
+schedule.CreateSchedule(io);
