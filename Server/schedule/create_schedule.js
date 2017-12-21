@@ -7,7 +7,7 @@ const ALL_SCHEDULE_DAYS = "SELECT * FROM BID_SCHEDULE";
 const UPDATE_EMPLOYEE = "UPDATE EMPLOYEE SET Is_Allowed = true WHERE Bid_Time = ?";
 const MS_PER_MINUTE = 60000;
 
-let CreateSchedule = () => {
+let CreateSchedule = (io) => {
 
   con.query(ALL_SCHEDULE_DAYS, function (err, results) {
     if (err) {
@@ -29,6 +29,7 @@ let CreateSchedule = () => {
         console.log(time);
 
         con.query(mysql.format(UPDATE_EMPLOYEE, [time]), function (err, results) {
+          io.sockets.emit('checkPicker');
           if (err) {
             console.log(err); //TODO: log this with npm package morgan.
           }

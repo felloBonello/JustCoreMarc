@@ -28,6 +28,16 @@ export class RunsDetailComponent {
   ngOnInit() {
     console.log(this.isAllowed);
     this.runDetails = this.selectedWorkItem;
+
+    this.socket.on('checkPicker', function() {
+      this.socket.emit('doIPick', localStorage.getItem('token'));
+    }.bind(this));
+
+    //Socket Io listeners
+    this.socket.on('notifyPicker', function(_isAllowed) {
+      console.log('pick data = ' + _isAllowed);
+      this.isAllowed = _isAllowed;
+    }.bind(this));
   }
 
   removeRun(id: number, callback) {
