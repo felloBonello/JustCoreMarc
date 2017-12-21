@@ -38,14 +38,14 @@ export class WorkHomeComponent implements OnInit {
       this.isAllowed = _isAllowed;
 
       if (this.isAllowed && !this.wasAllowed) {
-        this.toastr.custom('It is your turn to pick.', 'Bid Time',
+        this.toastr.info('It is your turn to pick.', 'Bid Time',
           {
             toastLife: 7000,
             dismiss: 'auto',
             newestOnTop: true,
-            showCloseButton: false,
+            showCloseButton: true,
             maxShown: 1,
-            positionClass: 'toast-bottom-full-width',
+            positionClass: 'toast-top-full-width',
             messageClass: null,
             titleClass: null,
             animate: 'flyLeft',
