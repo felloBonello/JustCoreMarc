@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import { WorkItem } from './work-item';
 import { RestfulService } from '../restful.service';
 import { BASEURL } from '../constants';
@@ -28,11 +27,15 @@ export class WorkHomeComponent implements OnInit {
 
 
   ngOnInit() {
+    this.socket.on('checkPicker', function() {
+      this.socket.emit('doIPick', localStorage.getItem('token'));
+    }.bind(this));
     //Socket Io listeners
     this.socket.on('notifyPicker', function(_isAllowed) {
       console.log('pick data = ' + _isAllowed);
       this.isAllowed = _isAllowed;
       if (this.isAllowed) {
+        alert("test");
         this.toastr.custom('<span style="color: red">I am a mother fucking TOASTER</span>', null, {enableHTML: true});
       }
     }.bind(this));
