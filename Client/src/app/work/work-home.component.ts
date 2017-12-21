@@ -38,19 +38,20 @@ export class WorkHomeComponent implements OnInit {
       this.isAllowed = _isAllowed;
 
       if (this.isAllowed && !this.wasAllowed) {
-        this.toastr.custom('It is your time to pick!', 'Bid Time',
+        this.toastr.custom('It is your turn to pick.', 'Bid Time',
           {
             toastLife: 7000,
             dismiss: 'auto',
             newestOnTop: true,
             showCloseButton: false,
-            maxShown: 0,
-            positionClass: 'toast-top-full-width',
+            maxShown: 1,
+            positionClass: 'toast-bottom-full-width',
             messageClass: null,
             titleClass: null,
             animate: 'flyLeft',
-            enableHTML: false}
-            );
+            enableHTML: false
+          }
+          );
       }
     }.bind(this));
     //Ask server if it is your turn to pick.
